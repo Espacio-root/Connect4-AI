@@ -38,7 +38,7 @@ export default function Connect({
     if (computer && player === 1) return;
     if (!computer) return;
 
-    const url = 'api/move';
+    const url = "api/move";
 
     const response = await fetch(url, {
       method: "POST",
@@ -61,7 +61,7 @@ export default function Connect({
   useEffect(() => {
     if (hasMounted) {
       checkWinner();
-      setPlayer(p => p === 1 ? 2 : 1);
+      setPlayer((p) => (p === 1 ? 2 : 1));
       setTimer(30);
     } else {
       setHasMounted(true);
@@ -176,21 +176,44 @@ export default function Connect({
                 row.map((col, colIndex) => (
                   <div
                     key={`${rowIndex}-${colIndex}`}
-                    className={`${col === 0 ? "bg-black" : "bg-black bg-opacity-70"} rounded-full w-auto m-[5px] aspect-square relative overflow-clip border-8 border-black`}
+                    className={`${
+                      col === 0 ? "bg-black" : "bg-black bg-opacity-70"
+                    } rounded-full w-auto m-[5px] aspect-square relative overflow-clip border-8 border-black`}
                     onClick={() => handleClick({ col: colIndex })}
                   >
-                    <div className={`${col === 0 ? "bg-[#7A45FF]" : col === 1 ? "bg-[#FC6587]" : "bg-[#FECE65]"} ${col === 0 ? "lg:top-6 md:top-4 top-3" : "top-2"} rounded-full absolute w-full h-full`}></div>
+                    <div
+                      className={`${
+                        col === 0
+                          ? "bg-[#7A45FF]"
+                          : col === 1
+                          ? "bg-[#FC6587]"
+                          : "bg-[#FECE65]"
+                      } ${
+                        col === 0 ? "lg:top-6 md:top-4 top-3" : "top-2"
+                      } rounded-full absolute w-full h-full`}
+                    ></div>
                   </div>
                 ))
               )}
             </div>
-            <div className={`absolute w-full bottom-0 left-0 h-[300px] ${winner === null ? "bg-[#5C2CD5]" : winner === 1 ? "bg-[#FC6587]" : "bg-[#FECE65]"} rounded-t-[50px] -z-10`}>
-            </div>
+            <div
+              className={`absolute w-full bottom-0 left-0 h-[300px] ${
+                winner === null
+                  ? "bg-[#5C2CD5]"
+                  : winner === 1
+                  ? "bg-[#FC6587]"
+                  : "bg-[#FECE65]"
+              } rounded-t-[50px] -z-10`}
+            ></div>
           </div>
 
-          <div className={`pentagon font-poppins text-white font-bold ${player === 1 ? "bg-[#FE6686]" : "bg-[#FECE65]"} grid place-items-center pt-16 pb-5 px-3 -mt-28 relative h-auto w-auto border-4 border-b-[14px] border-t-0 rounded-[20px] border-black`}>
+          <div
+            className={`pentagon font-poppins text-white font-bold ${
+              player === 1 ? "bg-[#FE6686]" : "bg-[#FECE65]"
+            } grid place-items-center pt-16 pb-5 px-3 -mt-28 relative h-auto w-auto border-4 border-b-[14px] border-t-0 rounded-[20px] border-black`}
+          >
             <p className="uppercase tracking-tight text-2xl pb-2">
-              Player {player}'s Turn
+              Player {player}&aposs Turn
             </p>
             <p className="text-7xl">{timer}s</p>
           </div>
