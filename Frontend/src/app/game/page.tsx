@@ -1,24 +1,30 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import axios from "axios";
 
-export default function Connect({params} : {params: {opponent: string}}) {
+export default function Connect({
+  searchParams,
+}: {
+  searchParams: { opponent: string };
+}) {
   const [board, setBoard] = useState(
-    [...Array(6)].map((e) => Array(7).fill(null))
+    [...Array(6)].map((e) => Array(7).fill(0))
   );
   const [player, setPlayer] = useState(1);
   const [winner, setWinner] = useState(null);
   const [timer, setTimer] = useState(30);
   const [pause, setPause] = useState(false);
 
-  const computer = params.opponent === "computer";
+  const computer = searchParams.opponent === "computer";
 
   const handleClick = ({ col }: { col: number }) => {
     if (winner) return;
+    if (computer && player === 2) return;
     let newBoard = [...board];
 
     for (let i = 5; i >= 0; i--) {
-      if (newBoard[i][col] === null) {
+      if (newBoard[i][col] === 0) {
         newBoard[i][col] = player;
         setBoard(newBoard);
         checkWinner();
@@ -29,12 +35,40 @@ export default function Connect({params} : {params: {opponent: string}}) {
     }
   };
 
+  const makeMove = async (board: number[][]) => {
+
+    if (winner) return;
+    if (computer && player === 2) return;
+    if (!computer) return;
+
+    const url = `api/move`;
+
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ 'board': board }),
+    });
+
+    const text = await response.text();
+
+    setBoard(JSON.parse(text));
+    checkWinner();
+    setPlayer(1);
+    setTimer(30);
+    return;
+  };
+
   const handleRestart = () => {
     setTimer(30);
     setPlayer(1);
     setWinner(null);
-    setBoard([...Array(6)].map((e) => Array(7).fill(null)));
+    setBoard([...Array(6)].map((e) => Array(7).fill(0)));
   };
+
+  useEffect(() => {
+    if (computer && player === 2) {
+      makeMove(board);
+    }
+  }, [player, computer]);
 
   useEffect(() => {
     if (!pause) {
@@ -51,7 +85,7 @@ export default function Connect({params} : {params: {opponent: string}}) {
     for (let i = 0; i < 6; i++) {
       for (let j = 0; j < 4; j++) {
         if (
-          board[i][j] !== null &&
+          board[i][j] !== 0 &&
           board[i][j] === board[i][j + 1] &&
           board[i][j + 1] === board[i][j + 2] &&
           board[i][j + 2] === board[i][j + 3]
@@ -66,7 +100,7 @@ export default function Connect({params} : {params: {opponent: string}}) {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 6; j++) {
         if (
-          board[i][j] !== null &&
+          board[i][j] !== 0 &&
           board[i][j] === board[i + 1][j] &&
           board[i + 1][j] === board[i + 2][j] &&
           board[i + 2][j] === board[i + 3][j]
@@ -81,7 +115,7 @@ export default function Connect({params} : {params: {opponent: string}}) {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 4; j++) {
         if (
-          board[i][j] !== null &&
+          board[i][j] !== 0 &&
           board[i][j] === board[i + 1][j + 1] &&
           board[i + 1][j + 1] === board[i + 2][j + 2] &&
           board[i + 2][j + 2] === board[i + 3][j + 3]
@@ -96,7 +130,7 @@ export default function Connect({params} : {params: {opponent: string}}) {
     for (let i = 3; i < 6; i++) {
       for (let j = 0; j < 4; j++) {
         if (
-          board[i][j] !== null &&
+          board[i][j] !== 0 &&
           board[i][j] === board[i - 1][j + 1] &&
           board[i - 1][j + 1] === board[i - 2][j + 2] &&
           board[i - 2][j + 2] === board[i - 3][j + 3]
@@ -139,19 +173,19 @@ export default function Connect({params} : {params: {opponent: string}}) {
                   <div
                     key={`${rowIndex}-${colIndex}`}
                     className={`${
-                      col === null ? "bg-black" : "bg-black bg-opacity-70"
+                      col === 0 ? "bg-black" : "bg-black bg-opacity-70"
                     } rounded-full w-auto m-3 aspect-square relative overflow-clip border-8 border-black`}
                     onClick={() => handleClick({ col: colIndex })}
                   >
                     <div
                       className={`${
-                        col === null
+                        col === 0
                           ? "bg-[#7A45FF]"
                           : col === 1
                           ? "bg-[#FC6587]"
                           : "bg-[#FECE65]"
                       } ${
-                        col === null ? "lg:top-6 md:top-4 top-3" : "top-2"
+                        col === 0 ? "lg:top-6 md:top-4 top-3" : "top-2"
                       } rounded-full absolute w-full h-full`}
                     ></div>
                   </div>
@@ -168,7 +202,7 @@ export default function Connect({params} : {params: {opponent: string}}) {
               } rounded-t-[50px] -z-10`}
             ></div>
           </div>
-          
+
           <div
             className={`pentagon font-poppins text-white font-bold ${
               player === 1 ? "bg-[#FE6686]" : "bg-[#FECE65]"

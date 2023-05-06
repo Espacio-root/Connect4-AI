@@ -1,6 +1,6 @@
 import math
 import random
-import numpy as np
+# import numpy as np
 
 class Connect4Ai:
     def __init__(self, rows, cols, player_piece, ai_piece):
@@ -100,6 +100,7 @@ class Connect4Ai:
 
     def drop_piece(self, board, row, col, piece):
         board[row][col] = piece
+        return board
 
     def is_terminal_node(self, board):
         return self.winning_move(board, self.player_piece) or self.winning_move(board, self.ai_piece) or len(self.get_valid_locations(board)) == 0
