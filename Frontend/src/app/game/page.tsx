@@ -15,6 +15,7 @@ export default function Connect({
   const [winner, setWinner] = useState(null);
   const [timer, setTimer] = useState(30);
   const [pause, setPause] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const computer = searchParams.opponent === "computer";
 
@@ -27,33 +28,26 @@ export default function Connect({
       if (newBoard[i][col] === 0) {
         newBoard[i][col] = player;
         setBoard(newBoard);
-        checkWinner();
-        setTimer(30);
-        setPlayer(player === 1 ? 2 : 1);
         return;
       }
     }
   };
 
   const makeMove = async (board: number[][]) => {
-
     if (winner) return;
-    if (computer && player === 2) return;
+    if (computer && player === 1) return;
     if (!computer) return;
 
     const url = `api/move`;
 
     const response = await fetch(url, {
       method: "POST",
-      body: JSON.stringify({ 'board': board }),
+      body: JSON.stringify({ board: board }),
     });
 
     const text = await response.text();
 
     setBoard(JSON.parse(text));
-    checkWinner();
-    setPlayer(1);
-    setTimer(30);
     return;
   };
 
@@ -65,13 +59,23 @@ export default function Connect({
   };
 
   useEffect(() => {
+    if (hasMounted) {
+      checkWinner();
+      setPlayer(player === 1 ? 2 : 1);
+      setTimer(30);
+    } else {
+      setHasMounted(true);
+    }
+  }, [board]);
+
+  useEffect(() => {
     if (computer && player === 2) {
       makeMove(board);
     }
   }, [player, computer]);
 
   useEffect(() => {
-    if (!pause) {
+    if (!pause && !winner) {
       const interval = setTimeout(() => {
         setTimer((time) => time - 1);
       }, 1000);
@@ -148,9 +152,9 @@ export default function Connect({
   }
 
   return (
-    <div className="h-full w-full flex flex-col">
+    <div className="h-full w-full flex flex-col overflow-x-hidden">
       <div className="relative">
-        <div className="mx-auto mt-12 h-auto max-w-[1200px] w-[85%] grid place-items-center gap-12">
+        <div className="mx-auto mt-12 h-auto max-w-[800px] w-[85%] grid place-items-center gap-12">
           <nav className="grid grid-cols-3 w-full mt-12 place-items-center">
             <button
               className="uppercase inline-flex items-center font-poppins text-5xl px-6 py-3 font-bold tracking-wider  bg-black text-slate-200 bg-opacity-60 hover:bg-slate-200 hover:text-black hover:border-4 hover:border-black rounded-full transition-colors duration-200 ease-in"
@@ -174,7 +178,7 @@ export default function Connect({
                     key={`${rowIndex}-${colIndex}`}
                     className={`${
                       col === 0 ? "bg-black" : "bg-black bg-opacity-70"
-                    } rounded-full w-auto m-3 aspect-square relative overflow-clip border-8 border-black`}
+                    } rounded-full w-auto m-[5px] aspect-square relative overflow-clip border-8 border-black`}
                     onClick={() => handleClick({ col: colIndex })}
                   >
                     <div
