@@ -61,7 +61,7 @@ export default function Connect({
   useEffect(() => {
     if (hasMounted) {
       checkWinner();
-      setPlayer(player === 1 ? 2 : 1);
+      setPlayer(p => p === 1 ? 2 : 1);
       setTimer(30);
     } else {
       setHasMounted(true);
