@@ -1,6 +1,9 @@
 #Full Stack Connect4 Game
 ##Welcome to the Connect4 game AI backend repository! This project is part of a full-stack implementation of the classic Connect4 game, where you can challenge an intelligent AI opponent.
 
+##Live Url
+https://connect4-ai-swart.vercel.app/
+
 ##Table of Contents
 *Introduction
 *Features
