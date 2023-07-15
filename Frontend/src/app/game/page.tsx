@@ -154,17 +154,17 @@ export default function Connect({
   return (
     <div className="h-full w-full flex flex-col overflow-x-hidden">
       <div className="relative">
-        <div className="mx-auto mt-12 h-auto max-w-[800px] w-[85%] grid place-items-center gap-12">
+        <div className="mx-auto mt-12 h-auto max-w-[500px] w-[85%] grid place-items-center gap-12">
           <nav className="grid grid-cols-3 w-full mt-12 place-items-center">
             <button
-              className="uppercase inline-flex items-center font-poppins text-5xl px-6 py-3 font-bold tracking-wider  bg-black text-slate-200 bg-opacity-60 hover:bg-slate-200 hover:text-black hover:border-4 hover:border-black rounded-full transition-colors duration-200 ease-in"
+              className="uppercase inline-flex items-center font-poppins md:text-3xl text-xl px-6 py-3 font-bold tracking-wider  bg-black text-slate-200 bg-opacity-60 hover:bg-slate-200 hover:text-black hover:border-4 hover:border-black rounded-full transition-colors duration-200 ease-in"
               onClick={() => setPause(!pause)}
             >
               {pause ? "Resume" : "Pause"}
             </button>
             <Image src="/images/Logo.png" width="100" height="100" alt="Logo" />
             <button
-              className="uppercase inline-flex items-center font-poppins text-5xl px-6 py-3 font-bold tracking-wider  bg-black text-slate-200 bg-opacity-60 hover:bg-slate-200 hover:text-black hover:border-4 hover:border-black rounded-full transition-colors duration-200 ease-in"
+              className="uppercase inline-flex items-center font-poppins md:text-3xl text-xl px-6 py-3 font-bold tracking-wider  bg-black text-slate-200 bg-opacity-60 hover:bg-slate-200 hover:text-black hover:border-4 hover:border-black rounded-full transition-colors duration-200 ease-in"
               onClick={handleRestart}
             >
               Restart
@@ -213,7 +213,7 @@ export default function Connect({
             } grid place-items-center pt-16 pb-5 px-3 -mt-28 relative h-auto w-auto border-4 border-b-[14px] border-t-0 rounded-[20px] border-black`}
           >
             <p className="uppercase tracking-tight text-2xl pb-2">
-              Player {player}&aposs Turn
+              Player {player}'s Turn
             </p>
             <p className="text-7xl">{timer}s</p>
           </div>
