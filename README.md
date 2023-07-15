@@ -1,36 +1,41 @@
-Live URL: https://connect4-ai-swart.vercel.app/
+#Full Stack Connect4 Game
+##Welcome to the Connect4 game AI backend repository! This project is part of a full-stack implementation of the classic Connect4 game, where you can challenge an intelligent AI opponent.
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+##Table of Contents
+*Introduction
+*Features
+*Algorithm Overview
+*Project Structure
+*Getting Started
+*Contributing
+*License
+*Introduction
 
-## Getting Started
+This repository contains the backend implementation of the Connect4 game's AI. Connect4 is a two-player board game where players take turns dropping colored discs from the top into a vertically suspended grid. The objective is to connect four of one's own discs in a row, either horizontally, vertically, or diagonally, before the opponent does.
 
-First, run the development server:
+The AI backend powers the intelligent opponent that users can challenge when playing the Connect4 game. The AI utilizes the [Minimax algorithm](https://en.wikipedia.org/wiki/Minimax) to make strategic decisions and choose the best possible move.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+##Features
+Intelligent AI Opponent: The AI backend uses the Minimax algorithm to provide a challenging and strategic Connect4 opponent.
+Scoring System: The backend employs a scoring system to evaluate potential moves and make informed decisions.
+Efficient Pruning: The Minimax algorithm is optimized using alpha-beta pruning, reducing the search space and improving performance.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+##Algorithm Overview
+The backend AI uses the [Minimax algorithm](https://en.wikipedia.org/wiki/Minimax), a decision-making technique widely used in two-player turn-based games. It operates on a game tree, evaluating the outcomes of possible moves to find the optimal move for the AI player. The algorithm recursively explores the game tree up to a specified depth and assigns a score to each terminal node (end of the game). The AI then makes decisions based on these scores, aiming to maximize its chances of winning while minimizing the opponent's.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+To improve performance, the Minimax algorithm employs alpha-beta pruning, which prunes branches in the game tree that are unlikely to lead to a better move for the AI. This optimization significantly reduces the search space, making the AI more efficient without compromising its strategic decision-making abilities.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+##Project Structure
+The Connect4 AI backend project is organized as follows:
 
-## Learn More
+backend/
+    ├── connect4_ai.py    # Connect4 AI class implementing the Minimax algorithm
+    ├── api.py           # API
+frontend/
+    ...                   # Frontend code and assets (separate repository)
+Getting Started
+To run the Connect4 game with the AI backend, follow these steps:
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Clone this repository: git clone https://github.com/Espacio-Root/Connect4-AI.git
+Navigate to the backend directory: cd backend
+Please note that the frontend of the Connect4 game is hosted separately in the frontend repository. Make sure to integrate this backend with the frontend for a complete and interactive user experience.
